@@ -1,16 +1,13 @@
 import re
 import math
 
-def Tf_idf(docs):
-
+def get_vocab(docs):
     # creer le vocabulaire (liste)
     voc = []
     for doc in docs:
         text = doc
         text = text.split()
         voc = voc + text
-
-
 
     # supprimer les char spéciaux
     """index = 0
@@ -27,7 +24,10 @@ def Tf_idf(docs):
         if element not in vocabulaire:
             vocabulaire.append(element)
 
-    #print("vocabulaire de : ", vocabulaire)
+    return vocabulaire
+
+
+def Tf_idf(docs, vocabulaire):
 
     nbDocs = len(docs)
     # calculer tfidf de chaque mot de chaque doc.
@@ -76,7 +76,7 @@ def Tf_idf(docs):
             TF[id].append(float(occ) / (len(docs)))
         IDF.append(math.log((len(docs)) / float(occ_doc),2))
 
-
         id += 1
 
         print(TF)
+        return TF, IDF
