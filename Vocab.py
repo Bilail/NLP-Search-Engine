@@ -59,12 +59,12 @@ def Tf_idf(docs, vocabulaire):
             IDF.append(idf)
             TF_IDF.append(tf * idf)
 """
-
+    TF = [[]]
+    IDF = []
     for word in vocabulaire:
         occ = 0
         occ_doc = 0
-        TF = [[]]
-        IDF = []
+
         tf_idf = 0
         id = 0
 
@@ -77,6 +77,5 @@ def Tf_idf(docs, vocabulaire):
         IDF.append(math.log((len(docs)) / float(occ_doc),2))
 
         id += 1
-
-        print(TF)
-        return TF, IDF
+      
+    return TF, IDF
