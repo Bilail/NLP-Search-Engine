@@ -4,10 +4,12 @@ import math
 def get_vocab(docs):
     # creer le vocabulaire (liste)
     voc = []
+    dic_vocab = {}
     for doc in docs:
         text = doc
         text = text.split()
         voc = voc + text
+        #dic_vocab[text] = 0
 
     # supprimer les char spéciaux
     """index = 0
@@ -61,6 +63,8 @@ def Tf_idf(docs, vocabulaire):
 """
     TF = [[]]
     IDF = []
+    dic_TF = {}
+    dic_IDF = {}
     for word in vocabulaire:
         occ = 0
         occ_doc = 0
@@ -74,8 +78,10 @@ def Tf_idf(docs, vocabulaire):
             occ = doc.count(word)
 
             TF[id].append(float(occ) / (len(docs)))
+            dic_TF[word] = float(occ) / (len(docs))
         IDF.append(math.log((len(docs)) / float(occ_doc),2))
+        dic_IDF[word] = math.log((len(docs)) / float(occ_doc),2)
 
         id += 1
       
-    return TF, IDF
+    return TF, IDF, dic_IDF, dic_TF
