@@ -20,52 +20,49 @@ def get_vocab(docs):
         index = index + 1"""
 
     # supprimer les doublons
-    vocabulaire = []
+    voc = list(dict.fromkeys(voc))
 
-    for element in voc:
-        if element not in vocabulaire:
-            vocabulaire.append(element)
-
-    return vocabulaire
+    return voc
 
 
-def Tf_idf(docs, vocabulaire):
+def tf_idf(docs, voc):
 
     nbDocs = len(docs)
+
     # calculer tfidf de chaque mot de chaque doc.
-
-
     TF = []
-    IDF = []
-    TF_IDF = []
-
-    # on parcours notre voc et on calcule TFIDF de ce mot dans notre doc
-    """ind = 0
-    for doc in docs:
-        text = doc
-        nbwords = len(text.split())
-        for word in vocabulaire:
-            ######calculer le nb de docs dans lequel un mot est apparu#######
-            nbDocsWordOccured = 0
-            for doc in docs:
-                if (word in text):
-                    nbDocsWordOccured = nbDocsWordOccured + 1
-            #########################################
-            nboccurence = text.count(word)
-            tf = nboccurence / nbwords
-            TF.append(tf)
-            if (nbDocsWordOccured != 0):
-                idf = nbDocs / nbDocsWordOccured
-            else :
-                idf = 0
-            IDF.append(idf)
-            TF_IDF.append(tf * idf)
-"""
-    TF = [[]]
     IDF = []
     dic_TF = {}
     dic_IDF = {}
-    for word in vocabulaire:
+    docs_length = []
+    for doc in docs:
+        docs_length.append(len(doc.split()))
+
+    for word in voc:
+        nbDocsWordOccured = 0
+        word_tf = []
+        for idx, doc in enumerate(docs):
+            nbWords = docs_length[idx]
+            nbOcc = doc.count(word)
+            if nbOcc > 0:
+                nbDocsWordOccured += 1
+            if nbWords > 0:
+                word_tf.append(nbOcc / nbWords)
+            else:
+                word_tf.append(0)
+        TF.append(word_tf)
+        if nbDocsWordOccured > 0:
+            IDF.append(math.log(nbDocs / nbDocsWordOccured, 2))
+        else:
+            IDF.append(0)
+        dic_TF[word] = TF[-1]
+        dic_IDF[word] = IDF[-1]
+
+    """TF = [[]]
+    IDF = []
+    dic_TF = {}
+    dic_IDF = {}
+    for word in voc:
         occ = 0
         occ_doc = 0
 
@@ -82,6 +79,6 @@ def Tf_idf(docs, vocabulaire):
         IDF.append(math.log((len(docs)) / float(occ_doc),2))
         dic_IDF[word] = math.log((len(docs)) / float(occ_doc),2)
 
-        id += 1
-      
+        id += 1"""
+
     return TF, IDF, dic_IDF, dic_TF
