@@ -1,6 +1,6 @@
 import re
-from collections import Counter
-import unicodedata, re, string
+import unicodedata
+import string
 import nltk
 """nltk.download('stopwords')
 nltk.download('punkt')
@@ -13,13 +13,6 @@ from nltk.stem import WordNetLemmatizer
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
-def get_dico(doc):
-    try:
-        DICO = open(doc, 'r', encoding="utf-8").read()
-    except:
-        DICO = open(doc, 'r').read()
-
-    return DICO
 
 def process_queries(queries, vocab):
     queries = clean(queries)
@@ -33,6 +26,7 @@ def process_queries(queries, vocab):
                 query += word + " "
         res.append(query)
     return res
+
 
 def remove_accents(input_str):
     """This method removes all diacritic marks from the given string"""
@@ -71,30 +65,3 @@ def lemmatize(text):
     word_tokens = word_tokenize(text)
     text = ' '.join([lemmatizer.lemmatize(w) for w in word_tokens])
     return text
-
-
-def tokenize_sentence(texte):
-    # clean the sentence
-    texte = clean_sentence(texte)
-    # tokenize
-    liste_words = texte.split()
-    # return
-    return liste_words
-
-
-def strip_apostrophe(liste_words):
-    get_radical = lambda word: word.split('\'')[-1]
-    return list(map(get_radical, liste_words))
-
-
-def pre_process(sentence):
-    # remove '_' from the sentence
-    sentence = sentence.replace('_', '')
-    # get words from the sentence
-    list_words = tokenize_sentence(sentence)
-    # cut out 1 or 2 letters ones
-    list_words = [elt for elt in list_words if len(elt) > 2]
-    # prendre le radical après l'apostrophe
-    list_words = strip_apostrophe(list_words)
-    print('\nsentence to words : ', list_words)
-    return list_words
