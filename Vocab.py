@@ -2,10 +2,12 @@ import operator
 import re
 import math
 
+
 def get_vocab(docs):
     # creer le vocabulaire (liste)
     voc = []
     dic_vocab = {}
+
     for doc in docs:
         text = doc
         text = text.split()

@@ -1,3 +1,4 @@
+import Prepocessing
 
 def parseAll(file) :
     file = open(file)
@@ -7,7 +8,6 @@ def parseAll(file) :
     authors = []
     abstracts = []
     references = []
-
     pre_line = ""
     authors_temp = []
     abstract_temp = ""
@@ -18,7 +18,7 @@ def parseAll(file) :
         abstract_temp += line.replace("\n", " ")
         continue
       elif line == ".X\n":
-        abstracts.append(abstract_temp)
+        abstracts.append(Prepocessing.clean_sentence(abstract_temp))
         abstract_temp = ""
       pre_line = line
     file.close()

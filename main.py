@@ -21,6 +21,9 @@ start_time = time.time()
 vocab, reverse_vocab = Vocab.get_vocab(abstracts_all)
 print("--- processed in %.2fs seconds ---" % (time.time() - start_time))
 
+print(vocab)
+'''
+
 print("Computing TF/IDF for each term ...")
 start_time = time.time()
 tf_idf_term_scores, TF_ALL, IDF_ALL, dic_TF, dic_IDF = Vocab.tf_idf_for_terms(abstracts_all, vocab)
@@ -65,3 +68,4 @@ for i in range(0, 3):
     for idx, r in enumerate(res):
         print(f"Result n°{idx+1} (doc_id = [{r+1}]) : {abstracts_all[r].strip()}")
 
+'''

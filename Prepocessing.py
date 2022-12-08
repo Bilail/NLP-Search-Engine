@@ -1,3 +1,8 @@
+import re
+from collections import Counter
+import unicodedata, re, string
+
+
 def get_dico(doc):
     try:
         DICO = open(doc, 'r', encoding="utf-8").read()
@@ -19,15 +24,8 @@ def clean_sentence(texte):
     texte = remove_accents(texte)
     # Lowercase the document
     texte = texte.lower()
-    # Remove Mentions
-    texte = re.sub(r'@\w+', '', texte)
     # Remove punctuations
     texte = re.sub(r'[%s]' % re.escape(string.punctuation), ' ', texte)
-    # Remove the doubled space
-    texte = re.sub(r'\s{2,}', ' ', texte)
-    # remove whitespaces at the beginning and the end
-    texte = texte.strip()
-
     return texte
 
 
@@ -48,7 +46,6 @@ def strip_apostrophe(liste_words):
 def pre_process(sentence):
     # remove '_' from the sentence
     sentence = sentence.replace('_', '')
-
     # get words fro the sentence
     liste_words = tokenize_sentence(sentence)
     # cut out 1 or 2 letters ones
