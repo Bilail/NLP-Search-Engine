@@ -82,3 +82,24 @@ def tf_idf(docs, voc):
         id += 1"""
 
     return TF, IDF, dic_IDF, dic_TF
+
+
+def bm25(dic_TF, dic_IDF, docs, queries):
+    scores = []
+    k1 = 1.2  # doit etre compris entre 1.2 et 2
+    b = 0.75  # doit etre compris entre 0 et 1
+    docs_length = []
+    for doc in docs:
+        docs_length.append(len(doc.split()))
+    avgdl = sum(docs_length) / len(docs_length)
+
+    for query in queries:
+        query_scores = []
+        words = query.split()
+        for doc_idx, doc in enumerate(docs):
+            sum_scores = 0
+            for word in words:
+                sum_scores += (dic_TF[word][doc_idx] * (k1+1)) / (dic_TF[word][doc_idx] + k1 * (1-b+b*(docs_length[doc_idx]/avgdl)))
+            query_scores.append(sum_scores)
+        scores.append(query_scores)
+    return scores
