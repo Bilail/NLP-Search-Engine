@@ -3,17 +3,15 @@ import numpy as np
 
 # Affiche les résultats suggérés pour chaque requête
 def print_queries_results(documents, documents_processed, queries, queries_processed, scores):
+    nb_queries_to_show = 3
     nb_results_to_show = 3
-    for i in range(0, nb_results_to_show):
+    for i in range(0, nb_queries_to_show):
         print(f"\n########### Query n°{i + 1} ###########")
         print(f"Query : \"{queries[i]}\" :")
-        print(f"Query processed : \"{queries_processed[i]}\" :")
         arr = np.array(scores[i])
-        res = arr.argsort()[-3:][::-1]
-        print(f"--> sorted : {sorted(scores[i], reverse=True)}")
+        res = arr.argsort()[-nb_results_to_show:][::-1]
         for idx, r in enumerate(res):
             print(f"--> Result n°{idx + 1} (doc_id = [{r + 1}], score = {arr[r]}) : {documents[r].strip()}")
-            print(f"--> Result processed : {documents_processed[r]}")
 
 
 # Calcule et affiche le metriques des résultats pour chaque requête

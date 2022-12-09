@@ -37,13 +37,13 @@ start_time = time.time()
 bm25_scores = Vocab.bm25(dic_TF, dic_IDF, documents_processed, queries_processed)
 print("--> processed in %.2fs seconds" % (time.time() - start_time))
 
-print("\n Testing scores for TF/IDF algorithm :")
+print("\nTesting scores for TF/IDF algorithm :")
 Helper.print_queries_results(documents, documents_processed, queries, queries_processed, tf_idf_query_scores)
 
-print("\n Testing scores for BM25 algorithm :")
+print("\nTesting scores for BM25 algorithm :")
 Helper.print_queries_results(documents, documents_processed, queries, queries_processed, bm25_scores)
 
-print("\n Computing metrics for the results for TF/IDF algorithm :")
+print("\nComputing metrics for the results for TF/IDF algorithm :")
 Helper.print_metrics(queries, results, tf_idf_query_scores)
 
 print("\nComputing metrics for the results for BM25 algorithm :")
