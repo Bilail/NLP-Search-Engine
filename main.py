@@ -1,24 +1,23 @@
-import sys
 import Parsing
 import Vocab
 import Prepocessing
 import Helper
 import time
-import numpy as np
 
 
-documents = Parsing.parseAll("./CISI.ALL")
+documents = Parsing.parseDocuments("./CISI.ALL")
 queries = Parsing.parseQueries("./CISI.QRY")
 results = Parsing.parseResults("./CISI.REL")
-print(results)
+
 print("\nProcessing documents ...")
-documents_processed = Prepocessing.clean(documents)
+start_time = time.time()
+documents_processed = Prepocessing.process_texts(documents)
+print("--> processed in %.2fs seconds" % (time.time() - start_time))
+
 print("\nComputing the vocab ...")
 start_time = time.time()
 vocab, reverse_vocab = Vocab.get_vocab(documents_processed)
 print("--> processed in %.2fs seconds" % (time.time() - start_time))
-
-#print(vocab)
 print(f"--> size of the vocabulary : {len(vocab)}")
 
 print("\nComputing TF/IDF for each term ...")

@@ -1,6 +1,6 @@
 import Prepocessing
 
-def parseAll(file) :
+def parseDocuments(file) :
     file = open(file)
 
     pre_line = ""

@@ -15,7 +15,7 @@ lemmatizer = WordNetLemmatizer()
 
 
 def process_queries(queries, vocab):
-    queries = clean(queries)
+    queries = process_texts(queries)
     # Suppression des mots des queries qui ne sont pas dans le vocabulaire
     res = []
     for query in queries:
@@ -29,26 +29,25 @@ def process_queries(queries, vocab):
 
 
 def remove_accents(input_str):
-    """This method removes all diacritic marks from the given string"""
     norm_txt = unicodedata.normalize('NFD', input_str)
     shaved = ''.join(c for c in norm_txt if not unicodedata.combining(c))
     return unicodedata.normalize('NFC', shaved)
 
 
-def clean(textes):
+def process_texts(texts):
     res = []
-    for texte in textes:
+    for text in texts:
         # Replace diacritics
-        texte = remove_accents(texte)
+        text = remove_accents(text)
         # Lowercase the document
-        texte = texte.lower()
+        text = text.lower()
         # Remove punctuations
-        texte = re.sub(r'[%s]' % re.escape(string.punctuation), ' ', texte)
+        text = re.sub(r'[%s]' % re.escape(string.punctuation), ' ', text)
         # Remove stop-words
-        texte = remove_stop_words(texte)
+        text = remove_stop_words(text)
         # Lemmatization of the text
-        texte = lemmatize(texte)
-        res.append(texte)
+        text = lemmatize(text)
+        res.append(text)
     return res
 
 

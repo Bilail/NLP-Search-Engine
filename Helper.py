@@ -1,8 +1,10 @@
 import numpy as np
 
 
+# Affiche les résultats suggérés pour chaque requête
 def print_queries_results(documents, documents_processed, queries, queries_processed, scores):
-    for i in range(0, 3):
+    nb_results_to_show = 3
+    for i in range(0, nb_results_to_show):
         print(f"\n########### Query n°{i + 1} ###########")
         print(f"Query : \"{queries[i]}\" :")
         print(f"Query processed : \"{queries_processed[i]}\" :")
@@ -14,6 +16,7 @@ def print_queries_results(documents, documents_processed, queries, queries_proce
             print(f"--> Result processed : {documents_processed[r]}")
 
 
+# Calcule et affiche le taux de succès des résultats pour chaque requête
 def print_success_rate(queries, results, scores):
     nb_results_extracted = 10
     average_success = 0

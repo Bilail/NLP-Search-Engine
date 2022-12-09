@@ -3,24 +3,15 @@ import re
 import math
 
 
+# retourne le vocabulaire à partir d'une liste de documents
 def get_vocab(docs):
     # creer le vocabulaire (liste)
     voc = []
-    dic_vocab = {}
 
     for doc in docs:
         text = doc
         text = text.split()
         voc = voc + text
-        #dic_vocab[text] = 0
-
-    # supprimer les char spéciaux
-    """index = 0
-    for word in voc:
-        if (not word.isapha()):
-            wordN = re.sub('[^A-Za-z0-9]+', '', word)
-            voc[index] = wordN
-        index = index + 1"""
 
     # supprimer les doublons
     voc = list(dict.fromkeys(voc))
@@ -30,17 +21,14 @@ def get_vocab(docs):
     return voc, rev_voc
 
 
+# calcule le TF/IDF de chaque mot dans chaque document
 def tf_idf_for_terms(docs, voc):
-
     nbDocs = len(docs)
-
-    # calculer tfidf de chaque mot de chaque doc.
     TF = []
     IDF = []
     dic_TF = {}
     dic_IDF = {}
     term_scores = []
-
     docs_length = []
     docs_splitted = []
     for doc in docs:
@@ -76,6 +64,7 @@ def tf_idf_for_terms(docs, voc):
     return term_scores, TF, IDF, dic_TF, dic_IDF
 
 
+# calcule le TF/IDF de chaque requête pour chaque document
 def tf_idf_for_queries(term_scores, rev_voc, queries):
     query_scores = []
     for query in queries:
@@ -87,10 +76,11 @@ def tf_idf_for_queries(term_scores, rev_voc, queries):
     return query_scores
 
 
+# calcule le score BM25 de chaque requête pour chaque document
 def bm25(dic_TF, dic_IDF, docs, queries):
     scores = []
     k1 = 1.2  # doit etre compris entre 1.2 et 2
-    b = 0.75  # doit etre compris entre 0 et 1
+    b = 0.0  # doit etre compris entre 0 et 1
     docs_length = []
     for doc in docs:
         docs_length.append(len(doc.split()))
@@ -102,7 +92,8 @@ def bm25(dic_TF, dic_IDF, docs, queries):
         for doc_idx, doc in enumerate(docs):
             sum_scores = 0
             for word in words:
-                sum_scores += (dic_TF[word][doc_idx] * (k1+1)) / (dic_TF[word][doc_idx] + k1 * (1-b+b*(docs_length[doc_idx]/avgdl)))
+                sum_scores += (dic_TF[word][doc_idx] * (k1 + 1)) / (
+                            dic_TF[word][doc_idx] + k1 * (1 - b + b * (docs_length[doc_idx] / avgdl)))
             query_scores.append(sum_scores)
         scores.append(query_scores)
     return scores
