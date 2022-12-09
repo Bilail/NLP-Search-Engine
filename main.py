@@ -1,5 +1,5 @@
 import Parsing
-import Vocab
+import Compute
 import Prepocessing
 import Helper
 import time
@@ -15,13 +15,13 @@ print("--> processed in %.2fs seconds" % (time.time() - start_time))
 
 print("\nComputing the vocab ...")
 start_time = time.time()
-vocab, reverse_vocab = Vocab.get_vocab(documents_processed)
+vocab, reverse_vocab = Compute.get_vocab(documents_processed)
 print("--> processed in %.2fs seconds" % (time.time() - start_time))
 print(f"--> size of the vocabulary : {len(vocab)}")
 
 print("\nComputing TF/IDF for each term ...")
 start_time = time.time()
-tf_idf_term_scores, TF_ALL, IDF_ALL, dic_TF, dic_IDF = Vocab.tf_idf_for_terms(documents_processed, vocab)
+tf_idf_term_scores, TF_ALL, IDF_ALL, dic_TF, dic_IDF = Compute.tf_idf_for_terms(documents_processed, vocab)
 print("--> processed in %.2fs seconds" % (time.time() - start_time))
 
 print("\nProcessing queries ...")
@@ -29,12 +29,12 @@ queries_processed = Prepocessing.process_queries(queries, vocab)
 
 print("\nComputing TF/IDF scores for queries ...")
 start_time = time.time()
-tf_idf_query_scores = Vocab.tf_idf_for_queries(tf_idf_term_scores, reverse_vocab, queries_processed)
+tf_idf_query_scores = Compute.tf_idf_for_queries(tf_idf_term_scores, reverse_vocab, queries_processed)
 print("--> processed in %.2fs seconds" % (time.time() - start_time))
 
 print("\nComputing BM25 scores ...")
 start_time = time.time()
-bm25_scores = Vocab.bm25(dic_TF, dic_IDF, documents_processed, queries_processed)
+bm25_scores = Compute.bm25(dic_TF, dic_IDF, documents_processed, queries_processed)
 print("--> processed in %.2fs seconds" % (time.time() - start_time))
 
 print("\nTesting scores for TF/IDF algorithm :")
