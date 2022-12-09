@@ -1,6 +1,3 @@
-import Prepocessing
-
-
 def parseDocuments(file):
     file = open(file)
 
