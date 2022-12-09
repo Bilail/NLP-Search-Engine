@@ -37,3 +37,15 @@ def parseQueries(file):
     file.close()
     return abstracts
 
+
+def parseResults(file):
+    file = open(file)
+    results = {}
+    for line in file:
+        arr = line.split()
+        arr = [int(arr[0]), int(arr[1])]
+        if arr[0] in results:
+            results[arr[0]].append(arr[1])
+        else:
+            results[arr[0]] = [arr[1]]
+    return results
