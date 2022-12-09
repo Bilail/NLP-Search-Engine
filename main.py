@@ -43,8 +43,8 @@ Helper.print_queries_results(documents, documents_processed, queries, queries_pr
 print("\n Testing scores for BM25 algorithm :")
 Helper.print_queries_results(documents, documents_processed, queries, queries_processed, bm25_scores)
 
-print("\n Computing success rate for the results for TF/IDF algorithm :")
-Helper.print_success_rate(queries, results, tf_idf_query_scores)
+print("\n Computing metrics for the results for TF/IDF algorithm :")
+Helper.print_metrics(queries, results, tf_idf_query_scores)
 
-print("\nComputing success rate for the results for BM25 algorithm :")
-Helper.print_success_rate(queries, results, bm25_scores)
+print("\nComputing metrics for the results for BM25 algorithm :")
+Helper.print_metrics(queries, results, bm25_scores)

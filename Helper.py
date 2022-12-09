@@ -16,23 +16,34 @@ def print_queries_results(documents, documents_processed, queries, queries_proce
             print(f"--> Result processed : {documents_processed[r]}")
 
 
-# Calcule et affiche le taux de succès des résultats pour chaque requête
-def print_success_rate(queries, results, scores):
+# Calcule et affiche le metriques des résultats pour chaque requête
+def print_metrics(queries, results, scores):
     nb_results_extracted = 10
-    average_success = 0
+    average_precision = 0
+    average_rappel = 0
+    average_f_score = 0
     for i in range(0, len(queries)):
-        # print(f"\n########### Query n°{i+1} ###########")
         arr = np.array(scores[i])
         res = arr.argsort()[-nb_results_extracted:][::-1]
         nb_results_in_common = 0
         for idx, r in enumerate(res):
             if i + 1 in results and r + 1 in results[i + 1]:
                 nb_results_in_common += 1
-        success_rate = 100
+        precision = 1
+        rappel = 1
         if i + 1 in results:
-            success_rate = nb_results_in_common / (
-                nb_results_extracted if nb_results_extracted <= len(results[i + 1]) else len(results[i + 1])) * 100
-        print(f"Query n°{i + 1} --> success rate : {success_rate} %")
-        average_success += success_rate
-    average_success /= len(queries)
-    print(f"\nAverage success rate : {average_success:.2f} %")
+            precision = nb_results_in_common / (
+                nb_results_extracted if nb_results_extracted <= len(results[i + 1]) else len(results[i + 1]))
+            rappel = nb_results_in_common / len(results[i + 1])
+        f_score = 0 if (precision + rappel == 0) else 2 * (precision * rappel) / (precision + rappel)
+        print(f"Query n°{i + 1} --> precision@10 : {precision:.2f}, rappel@10 : {rappel:.2f}, F-score@10 : {f_score:.2f}")
+        average_precision += precision
+        average_rappel += rappel
+        average_f_score += f_score
+    average_precision /= len(queries)
+    average_rappel /= len(queries)
+    average_f_score /= len(queries)
+    print(f"\nAvg precision@10 : {average_precision:.2f}")
+    print(f"Avg rappel@10 : {average_rappel:.2f}")
+    print(f"Avg F-score@10 : {average_f_score:.2f}")
+
