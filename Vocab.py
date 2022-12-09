@@ -93,7 +93,7 @@ def bm25(dic_TF, dic_IDF, docs, queries):
             sum_scores = 0
             for word in words:
                 sum_scores += (dic_TF[word][doc_idx] * (k1 + 1)) / (
-                            dic_TF[word][doc_idx] + k1 * (1 - b + b * (docs_length[doc_idx] / avgdl)))
+                        dic_TF[word][doc_idx] + k1 * (1 - b + b * (docs_length[doc_idx] / avgdl)))
             query_scores.append(sum_scores)
         scores.append(query_scores)
     return scores

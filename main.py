@@ -4,7 +4,6 @@ import Prepocessing
 import Helper
 import time
 
-
 documents = Parsing.parseDocuments("./CISI.ALL")
 queries = Parsing.parseQueries("./CISI.QRY")
 results = Parsing.parseResults("./CISI.REL")
